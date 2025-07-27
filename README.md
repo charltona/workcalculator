@@ -17,15 +17,15 @@ A modern, client-side application that helps you understand the true cost of pur
 
 ### Prerequisites
 
-- Node.js (v14 or later)
+- Node.js (v18 or later)
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/work-calculator.git
-   cd work-calculator
+   git clone https://github.com/charltona/workcalculator.git
+   cd workcalculator
    ```
 
 2. Install dependencies
