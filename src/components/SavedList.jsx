@@ -90,10 +90,10 @@ const SavedList = ({ items, onDelete }) => {
                     e.stopPropagation();
                     onDelete(item.id);
                   }} 
-                  className="btn-delete"
+                  className="btn-text"
                   aria-label={`Delete ${item.name}`}
                 >
-                  Delete
+                  ❌
                 </button>
               </li>
             ))}
