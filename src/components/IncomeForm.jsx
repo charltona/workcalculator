@@ -51,62 +51,61 @@ const IncomeForm = ({ details, setDetails, rememberMe, setRememberMe, errors, ho
 
   return (
     <div className="card">
-
-
-      <div className="form-row">
-        <div className="form-group flex-grow">
-          <label htmlFor="income">Your After-Tax Income</label>
-          <input
-            type="text"
-            inputMode="decimal"
-            id="income"
-            name="income"
-            value={displayIncome}
-            onChange={handleIncomeChange}
-            onBlur={handleBlur}
-            placeholder="e.g., $60,000"
-            className={errors.income ? 'input-error' : ''}
-          />
-          {errors.income && <p className="error-message">{errors.income}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="incomeType">Frequency</label>
-          <select id="incomeType" name="incomeType" value={details.incomeType} onChange={handleChange}>
-            <option value="Annual">Annual</option>
-            <option value="Monthly">Monthly</option>
-            <option value="Hourly">Hourly</option>
-          </select>
-        </div>
+      <div className="form-group">
+        <label htmlFor="income">Your After-Tax Income</label>
+        <input
+          type="text"
+          inputMode="decimal"
+          id="income"
+          name="income"
+          value={displayIncome}
+          onChange={handleIncomeChange}
+          onBlur={handleBlur}
+          placeholder="e.g., $60,000"
+          className={errors.income ? 'input-error' : ''}
+        />
+        {errors.income && <p className="error-message">{errors.income}</p>}
       </div>
 
+      <div className="form-group">
+        <label htmlFor="incomeType">Frequency</label>
+        <select 
+          id="incomeType" 
+          name="incomeType" 
+          value={details.incomeType} 
+          onChange={handleChange}
+          className="full-width"
+        >
+          <option value="Annual">Annual</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Hourly">Hourly</option>
+        </select>
+      </div>
 
+      <div className="form-group">
+        <label htmlFor="hoursPerWeek">Hours worked per week</label>
+        <input
+          type="number"
+          id="hoursPerWeek"
+          value={details.hoursPerWeek}
+          onChange={(e) => setDetails(prev => ({ ...prev, hoursPerWeek: e.target.value }))}
+          placeholder="e.g., 40"
+          className={`${errors.hoursPerWeek ? 'input-error' : ''} full-width`}
+        />
+        {errors.hoursPerWeek && <p className="error-message">{errors.hoursPerWeek}</p>}
+      </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="hoursPerWeek">Hours worked per week</label>
-          <input
-            type="number"
-            id="hoursPerWeek"
-            value={details.hoursPerWeek}
-            onChange={(e) => setDetails(prev => ({ ...prev, hoursPerWeek: e.target.value }))}
-            placeholder="e.g., 40"
-            className={errors.hoursPerWeek ? 'input-error' : ''}
-          />
-          {errors.hoursPerWeek && <p className="error-message">{errors.hoursPerWeek}</p>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="hoursPerDay">Hours in a typical work day</label>
-          <input
-            type="number"
-            id="hoursPerDay"
-            value={details.hoursPerDay}
-            onChange={(e) => setDetails(prev => ({ ...prev, hoursPerDay: e.target.value }))}
-            placeholder="e.g., 8"
-            className={errors.hoursPerDay ? 'input-error' : ''}
-          />
-          {errors.hoursPerDay && <p className="error-message">{errors.hoursPerDay}</p>}
-        </div>
+      <div className="form-group">
+        <label htmlFor="hoursPerDay">Hours in a typical work day</label>
+        <input
+          type="number"
+          id="hoursPerDay"
+          value={details.hoursPerDay}
+          onChange={(e) => setDetails(prev => ({ ...prev, hoursPerDay: e.target.value }))}
+          placeholder="e.g., 8"
+          className={`${errors.hoursPerDay ? 'input-error' : ''} full-width`}
+        />
+        {errors.hoursPerDay && <p className="error-message">{errors.hoursPerDay}</p>}
       </div>
 
       <div className="form-group-inline">
