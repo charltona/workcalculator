@@ -1,12 +1,100 @@
-# React + Vite
+# Work Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, client-side application that helps you understand the true cost of purchases in terms of your working time. Built with React and Vite.
 
-Currently, two official plugins are available:
+![Work Calculator Screenshot](./public/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 💰 Calculate how much working time a purchase will cost you
+- 📊 Understand your effective hourly rate after taxes
+- 💾 Save and compare multiple items
+- 🌓 Light and dark mode support
+- 📱 Fully responsive design
+- 🔒 100% client-side - your data stays on your device
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/work-calculator.git
+   cd work-calculator
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Start the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+## 🛠️ Building for Production
+
+To create a production build:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## ☕ Support
+
+If you find this project useful, consider buying me a coffee!
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/aaronc.au)
+
+## 📄 Project Structure
+
+```
+src/
+├── components/      # Reusable UI components
+├── contexts/       # React context providers
+├── utils/          # Utility functions and calculations
+├── App.jsx         # Main application component
+└── main.jsx        # Application entry point
+```
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+npm test
+# or
+yarn test
+```
+
+## 📱 Browser Support
+
+The application is tested on the latest versions of:
+- Chrome
+- Firefox
+- Safari
+- Edge
