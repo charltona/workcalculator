@@ -70,11 +70,41 @@ function App() {
   const validateInputs = () => {
     const newErrors = {};
     const { income, hoursPerWeek, hoursPerDay } = incomeDetails;
+    const hoursPerWeekNum = parseFloat(hoursPerWeek);
+    const hoursPerDayNum = parseFloat(hoursPerDay);
 
-    if (!income || parseFloat(income) <= 0) newErrors.income = 'Please enter a valid income.';
-    if (!hoursPerWeek || parseFloat(hoursPerWeek) <= 0) newErrors.hoursPerWeek = 'Hours per week must be greater than 0.';
-    if (!hoursPerDay || parseFloat(hoursPerDay) <= 0) newErrors.hoursPerDay = 'Hours per day must be greater than 0.';
-    if (!itemCost || parseFloat(itemCost) <= 0) newErrors.itemCost = 'Please enter a valid item cost.';
+    if (!income || parseFloat(income) <= 0) {
+      newErrors.income = 'Please enter a valid income.';
+    }
+    
+    // Validate hours per week
+    if (!hoursPerWeek || isNaN(hoursPerWeekNum) || hoursPerWeekNum <= 0) {
+      newErrors.hoursPerWeek = 'Hours per week must be greater than 0.';
+    } else if (hoursPerWeekNum > 168) {
+      newErrors.hoursPerWeek = 'Hours per week cannot exceed 168 (24 hours × 7 days).';
+    }
+
+    // Validate hours per day
+    if (!hoursPerDay || isNaN(hoursPerDayNum) || hoursPerDayNum <= 0) {
+      newErrors.hoursPerDay = 'Hours per day must be greater than 0.';
+    } else if (hoursPerDayNum > 24) {
+      newErrors.hoursPerDay = 'Hours per day cannot exceed 24.';
+    }
+
+    // Validate relationship between hours per day and hours per week
+    if (hoursPerDayNum && hoursPerWeekNum) {
+      if (hoursPerWeekNum < hoursPerDayNum) {
+        newErrors.hoursPerWeek = 'Hours per week cannot be less than hours per day.';
+        newErrors.hoursPerDay = 'Hours per day cannot be more than hours per week.';
+      } else if (hoursPerWeekNum > (hoursPerDayNum * 7)) {
+        newErrors.hoursPerWeek = 'Hours per week cannot be more than hours per day × 7.';
+        newErrors.hoursPerDay = 'Hours per day × 7 must be at least equal to hours per week.';
+      }
+    }
+
+    if (!itemCost || parseFloat(itemCost) <= 0) {
+      newErrors.itemCost = 'Please enter a valid item cost.';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

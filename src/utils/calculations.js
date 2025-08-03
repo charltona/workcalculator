@@ -42,14 +42,26 @@ export const calculateTimeCost = (itemCost, hourlyRate, hoursPerDay) => {
   const days = Math.floor(totalHours / workdayLength);
   const remainingHours = totalHours % workdayLength;
   
-  // If total hours is less than or equal to 1.0 and there are no work days, show minutes
-  if (totalHours <= 1.0 && days === 0) {
+  // If total hours is less than 1.0, show minutes regardless of work days
+  if (totalHours < 1.0) {
     const minutes = Math.round(totalHours * 60);
     return {
       totalHours: parseFloat(totalHours.toFixed(1)),
       minutes,
       showMinutes: true,
-      days: 0
+      days: days, // Keep the days value for reference but don't show it
+      hoursPerDay: workdayLength // Include hoursPerDay in the returned object
+    };
+  }
+  
+  // If total hours is exactly 1.0, show minutes if no full work days
+  if (totalHours === 1.0 && days === 0) {
+    return {
+      totalHours: 1.0,
+      minutes: 60,
+      showMinutes: true,
+      days: 0,
+      hoursPerDay: workdayLength // Include hoursPerDay in the returned object
     };
   }
 
@@ -57,6 +69,7 @@ export const calculateTimeCost = (itemCost, hourlyRate, hoursPerDay) => {
     totalHours: parseFloat(totalHours.toFixed(1)),
     days,
     remainingHours: parseFloat(remainingHours.toFixed(1)),
-    showMinutes: false
+    showMinutes: false,
+    hoursPerDay: workdayLength // Include hoursPerDay in the returned object
   };
 };

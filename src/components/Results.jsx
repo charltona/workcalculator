@@ -16,31 +16,53 @@ const Results = ({ timeCost, itemName, setItemName, onSave, hourlyRate, itemCost
       <h3>You would need to work for</h3>
       <div className="stats-container">
         {timeCost.showMinutes ? (
-          <div className="stat-card">
-            <div className="stat-number">
+          <div className="time-value">
+            <span className="stat-number">
               <CountUpNumber>{timeCost.minutes}</CountUpNumber>
-            </div>
-            <div className="stat-label">Minutes</div>
+            </span>
+            <span className="stat-label">Minutes</span>
           </div>
-        ) : (
-          <>
-            {timeCost.days > 0 && (
-              <div className="stat-card">
-                <div className="stat-number">
+        ) : timeCost.days > 0 ? (
+          <div className="time-values-container">
+            <div className="time-values-row">
+              <div className="time-value">
+                <span className="stat-number">
                   <CountUpNumber>{timeCost.days}</CountUpNumber>
+                </span>
+                <span className="stat-label">
+                  Work {timeCost.days === 1 ? 'Day' : 'Days'}
+                </span>
+              </div>
+              <div className="add-operator">and</div>
+              {timeCost.remainingHours < 1 ? (
+                <div className="time-value">
+                  <span className="stat-number">
+                    <CountUpNumber>{Math.round(timeCost.remainingHours * 60)}</CountUpNumber>
+                  </span>
+                  <span className="stat-label">Minutes</span>
                 </div>
-                <div className="stat-label">Work {timeCost.days === 1 ? 'Day' : 'Days'}</div>
+              ) : (
+                <div className="time-value">
+                  <span className="stat-number">
+                    <CountUpNumber>{timeCost.remainingHours.toFixed(1)}</CountUpNumber>
+                  </span>
+                  <span className="stat-label">Hours</span>
+                </div>
+              )}
+            </div>
+            {timeCost.days > 0 && (
+              <div className="hours-per-day-note">
+                Based on {timeCost.hoursPerDay || 8} hours per work day
               </div>
             )}
-            <div className="stat-card">
-              <div className="stat-number">
-                <CountUpNumber>{
-                  timeCost.days > 0 ? timeCost.remainingHours : timeCost.totalHours
-                }</CountUpNumber>
-              </div>
-              <div className="stat-label">Hours</div>
-            </div>
-          </>
+          </div>
+        ) : (
+          <div className="time-value">
+            <span className="stat-number">
+              <CountUpNumber>{timeCost.totalHours.toFixed(1)}</CountUpNumber>
+            </span>
+            <span className="stat-label">Hours</span>
+          </div>
         )}
       </div>
 

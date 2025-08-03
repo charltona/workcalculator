@@ -3,45 +3,58 @@ import React, { useState, useEffect } from 'react';
 const Calculator = ({ itemCost, setItemCost, onCalculate, onReset, error }) => {
   const [displayCost, setDisplayCost] = useState('');
 
-  useEffect(() => {
-    if (itemCost) {
-      setDisplayCost(new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(itemCost));
-    } else {
-      setDisplayCost('');
-    }
-  }, [itemCost]);
-
   const handleCostChange = (e) => {
-    const rawValue = e.target.value.replace(/[^\d.]/g, '');
-    const numericValue = rawValue ? parseFloat(rawValue) : '';
+    let rawValue = e.target.value.replace(/[^\d.]/g, '');
+    
+    // Handle multiple decimal points by only keeping the first one
+    const decimalCount = (rawValue.match(/\./g) || []).length;
+    if (decimalCount > 1) {
+      const parts = rawValue.split('.');
+      rawValue = parts[0] + '.' + parts.slice(1).join('');
+    }
 
+    // If there's a decimal, limit to 2 decimal places
+    if (rawValue.includes('.')) {
+      const [integerPart, decimalPart] = rawValue.split('.');
+      if (decimalPart && decimalPart.length > 2) {
+        rawValue = integerPart + '.' + decimalPart.substring(0, 2);
+      }
+    }
+
+    const numericValue = rawValue ? parseFloat(rawValue) : '';
     setItemCost(numericValue);
 
-    if (rawValue.endsWith('.')) {
-        setDisplayCost('$' + rawValue);
+    if (rawValue === '') {
+      setDisplayCost('');
+    } else if (rawValue.endsWith('.')) {
+      setDisplayCost('$' + rawValue);
     } else if (numericValue) {
-        const [integerPart, decimalPart] = rawValue.split('.');
-        let formatted = '$' + new Intl.NumberFormat('en-US').format(integerPart);
-        if (decimalPart !== undefined) {
-            formatted += '.' + decimalPart;
-        }
-        setDisplayCost(formatted);
-    } else {
-        setDisplayCost('');
+      const [integerPart, decimalPart] = rawValue.split('.');
+      let formatted = '$' + new Intl.NumberFormat('en-US').format(parseInt(integerPart || '0', 10));
+      if (decimalPart !== undefined) {
+        formatted += '.' + decimalPart.padEnd(2, '0').substring(0, 2);
+      }
+      setDisplayCost(formatted);
     }
   };
 
   const handleBlur = () => {
-    if (itemCost) {
-      setDisplayCost(new Intl.NumberFormat('en-US', {
+    if (itemCost || itemCost === 0) {
+      // Format with 2 decimal places when input loses focus
+      const formattedValue = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-      }).format(itemCost));
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(itemCost);
+      
+      setDisplayCost(formattedValue);
+      
+      // Update the numeric value to ensure it has exactly 2 decimal places
+      const numericValue = parseFloat(itemCost).toFixed(2);
+      setItemCost(parseFloat(numericValue));
+    } else {
+      setDisplayCost('');
     }
   };
   return (
