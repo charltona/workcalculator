@@ -8,14 +8,16 @@ const SavedList = ({ items, onDelete }) => {
 
   const formatTime = (timeCost, hourlyRate) => {
     if (!timeCost) return '';
-    const { days, remainingHours } = timeCost;
+    const { days, remainingHours, showMinutes, minutes } = timeCost;
     let timeString = '';
     
-    if (days > 0) {
-      const dayString = days > 1 ? 'work days' : 'work day';
-      timeString = `${days} ${dayString}, ${remainingHours} hours`;
-    } else {
-      timeString = `${remainingHours} hours`;
+    if (showMinutes && minutes !== undefined) {
+      timeString = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    } else if (days > 0) {
+      const dayString = days === 1 ? 'work day' : 'work days';
+      timeString = `${days} ${dayString}${remainingHours > 0 ? `, ${remainingHours} hour${remainingHours !== 1 ? 's' : ''}` : ''}`;
+    } else if (remainingHours !== undefined) {
+      timeString = `${remainingHours} hour${remainingHours !== 1 ? 's' : ''}`;
     }
     
     // Add hourly rate if available

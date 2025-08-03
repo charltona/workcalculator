@@ -78,6 +78,8 @@ const IncomeForm = ({ details, setDetails, rememberMe, setRememberMe, errors, ho
         >
           <option value="Annual">Annual</option>
           <option value="Monthly">Monthly</option>
+          <option value="Fortnightly">Fortnightly</option>
+          <option value="Weekly">Weekly</option>
           <option value="Hourly">Hourly</option>
         </select>
       </div>

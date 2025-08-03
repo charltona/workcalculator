@@ -130,7 +130,7 @@ function App() {
       <header>
         <div className="header-content">
           <div>
-            <h1>Work Calculator</h1>
+            <h1>Work To Buy</h1>
             <p>Calculate the real cost of your purchases in work time</p>
           </div>
           <ThemeToggle />
@@ -176,7 +176,8 @@ function App() {
         />
       </main>
       <footer>
-        <p>All data is stored locally in your browser. Nothing is sent to a server.</p>
+        <p>Income & purchase data is stored locally in your browser, not sent to a server.</p>
+        <p></p>
         <BuyMeACoffee hourlyRate={hourlyRate} />
       </footer>
     </div>

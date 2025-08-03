@@ -15,18 +15,33 @@ const Results = ({ timeCost, itemName, setItemName, onSave, hourlyRate, itemCost
     <div className="insight-card">
       <h3>You would need to work for</h3>
       <div className="stats-container">
-        <div className="stat-card">
-          <div className="stat-number">
-            <CountUpNumber>{timeCost.days}</CountUpNumber>
+        {timeCost.showMinutes ? (
+          <div className="stat-card">
+            <div className="stat-number">
+              <CountUpNumber>{timeCost.minutes}</CountUpNumber>
+            </div>
+            <div className="stat-label">Minutes</div>
           </div>
-          <div className="stat-label">Work {timeCost.days === 1 ? 'Day' : 'Days'}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-number">
-            <CountUpNumber>{timeCost.remainingHours}</CountUpNumber>
-          </div>
-          <div className="stat-label">Hours</div>
-        </div>
+        ) : (
+          <>
+            {timeCost.days > 0 && (
+              <div className="stat-card">
+                <div className="stat-number">
+                  <CountUpNumber>{timeCost.days}</CountUpNumber>
+                </div>
+                <div className="stat-label">Work {timeCost.days === 1 ? 'Day' : 'Days'}</div>
+              </div>
+            )}
+            <div className="stat-card">
+              <div className="stat-number">
+                <CountUpNumber>{
+                  timeCost.days > 0 ? timeCost.remainingHours : timeCost.totalHours
+                }</CountUpNumber>
+              </div>
+              <div className="stat-label">Hours</div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="calculation-breakdown">
@@ -41,7 +56,12 @@ const Results = ({ timeCost, itemName, setItemName, onSave, hourlyRate, itemCost
         </div>
         <div className="breakdown-item total">
           <span>Total Time Cost:</span>
-          <span>{timeCost.totalHours} hours</span>
+          <span>
+            {timeCost.showMinutes 
+              ? `${timeCost.minutes} minutes` 
+              : `${timeCost.totalHours} hours`
+            }
+          </span>
         </div>
       </div>
 
@@ -58,7 +78,7 @@ const Results = ({ timeCost, itemName, setItemName, onSave, hourlyRate, itemCost
           />
           <button onClick={onSave} className="btn-primary">
             {/* SVG for save icon can go here */}
-            Add to List
+            Save
           </button>
         </div>
       </div>

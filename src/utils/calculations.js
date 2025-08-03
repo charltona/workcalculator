@@ -11,8 +11,17 @@ export const calculateHourlyRate = (details) => {
   }
 
   let annualIncome = income;
-  if (details.incomeType === 'Monthly') {
-    annualIncome = income * 12;
+  switch (details.incomeType) {
+    case 'Monthly':
+      annualIncome = income * 12;
+      break;
+    case 'Fortnightly':
+      annualIncome = income * 26; // 52 weeks / 2
+      break;
+    case 'Weekly':
+      annualIncome = income * 52;
+      break;
+    // 'Annual' is already the default
   }
 
   const annualHours = hoursPerWeek * 52;
@@ -32,10 +41,22 @@ export const calculateTimeCost = (itemCost, hourlyRate, hoursPerDay) => {
   const workdayLength = parseFloat(hoursPerDay) || 8; // Default to 8 if not set
   const days = Math.floor(totalHours / workdayLength);
   const remainingHours = totalHours % workdayLength;
+  
+  // If total hours is less than or equal to 1.0 and there are no work days, show minutes
+  if (totalHours <= 1.0 && days === 0) {
+    const minutes = Math.round(totalHours * 60);
+    return {
+      totalHours: parseFloat(totalHours.toFixed(1)),
+      minutes,
+      showMinutes: true,
+      days: 0
+    };
+  }
 
   return {
-    totalHours: totalHours.toFixed(1),
+    totalHours: parseFloat(totalHours.toFixed(1)),
     days,
-    remainingHours: remainingHours.toFixed(1),
+    remainingHours: parseFloat(remainingHours.toFixed(1)),
+    showMinutes: false
   };
 };

@@ -23,9 +23,16 @@ describe('calculateHourlyRate', () => {
     expect(calculateHourlyRate(details)).toBe(0);
   });
 
-  it('should return 0 if hoursPerWeek is not provided', () => {
-    const details = { income: 52000, incomeType: 'Annual', hoursPerWeek: 0 };
-    expect(calculateHourlyRate(details)).toBe(0);
+  it('should return the correct hourly rate for weekly income', () => {
+    // $1000/week = $52,000/year / (40 * 52) = $25/hour
+    const details = { income: 1000, incomeType: 'Weekly', hoursPerWeek: 40 };
+    expect(calculateHourlyRate(details)).toBe(25);
+  });
+
+  it('should return the correct hourly rate for fortnightly income', () => {
+    // $2000/fortnight = $52,000/year / (40 * 52) = $25/hour
+    const details = { income: 2000, incomeType: 'Fortnightly', hoursPerWeek: 40 };
+    expect(calculateHourlyRate(details)).toBe(25);
   });
 });
 
@@ -36,6 +43,34 @@ describe('calculateTimeCost', () => {
     expect(result.days).toBe(2);
     expect(parseFloat(result.remainingHours)).toBe(4);
     expect(parseFloat(result.totalHours)).toBe(20);
+  });
+
+  it('should return minutes when total time is less than 1 hour', () => {
+    // $31 item / $62/hr = 0.5 hours = 30 minutes
+    const result = calculateTimeCost(31, 62, 8);
+    expect(result.totalHours).toBe(0.5);
+    expect(result.minutes).toBe(30);
+    expect(result.showMinutes).toBe(true);
+    expect(result.days).toBe(0);
+  });
+
+  it('should not return minutes when there are work days', () => {
+    // $1000 item / $50/hr = 20 hours = 2.5 days (with 8-hour workday)
+    const result = calculateTimeCost(1000, 50, 8);
+    expect(result.days).toBe(2);
+    expect(result.minutes).toBeUndefined();
+    expect(result.showMinutes).toBe(false);
+    expect(result.totalHours).toBe(20);
+    expect(result.remainingHours).toBe(4);
+  });
+
+  it('should handle edge case of exactly 1 hour', () => {
+    // $62 item / $62/hr = 1.0 hour = 60 minutes
+    const result = calculateTimeCost(62, 62, 8);
+    expect(result.totalHours).toBe(1.0);
+    expect(result.minutes).toBe(60);
+    expect(result.showMinutes).toBe(true);
+    expect(result.days).toBe(0);
   });
 
   it('should return null for invalid or zero inputs', () => {
