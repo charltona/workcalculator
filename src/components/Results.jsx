@@ -74,7 +74,7 @@ const Results = ({ timeCost, itemName, setItemName, onSave, hourlyRate, itemCost
             id="insightName"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
-            placeholder="e.g., New Gaming PC"
+            placeholder="e.g., Flight to Europe"
           />
           <button onClick={onSave} className="btn-primary">
             {/* SVG for save icon can go here */}
